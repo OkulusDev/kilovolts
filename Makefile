@@ -3,5 +3,5 @@ all: clean
 
 .PHONY: clean
 clean:
-	rm modules/__pycache__
-	rm __pycache__
+	rm -rf modules/__pycache__
+	rm -rf __pycache__
