@@ -78,7 +78,11 @@ class PCB:
 
         result += f'Компоненты ({len(self.components)}):\n'
         for component in self.components:
-            result += f'{component.get_name()}\n'
+            result += f'{component.get_name()}'
+            if component.component == 'Transistor':
+                is_on = ' (on)' if component.is_on() else ' (off)'
+                result += is_on
+            result += '\n'
 
         result += f'Связи ({len(self.connections)}):\n'
         for connection in self.connections:
