@@ -9,10 +9,10 @@ class Transistor(Component):
     широко используются в электронных устройствах, таких как усилители,
     микропроцессоры, телевизоры и другие."""
     def __init__(self, name: str, transistor_type: str, voltage: float, 
-                 amperage: float, collector: float, emitter: float,
-                 wired_objects: list=[]):
+                 amperage: float, collector: float, emitter: float, 
+                 resistance: float=0.0, wired_objects: list=[]):
         super().__init__(f'{transistor_type} {name}',
-                         'Transistor', voltage, amperage, wired_objects)
+                         'Transistor', voltage, resistance, amperage, wired_objects)
         self.collector_current = collector
         self.transistor_type = transistor_type
         self.emitter_current = emitter

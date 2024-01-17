@@ -10,16 +10,17 @@ from modules.base import Component
 
 class LinearComponent(Component):
     """Линейный компонент"""
-    def __init__(self, name: str, component_type: str, voltage: float, 
-                 amperage: float, wired_objects: list=[]):
-        super().__init__(name, component_type, voltage, amperage, wired_objects)
+    def __init__(self, name: str, component_type: str, voltage: float,
+                 resistance: float, amperage: float, wired_objects: list=[]):
+        super().__init__(name, component_type, voltage, resistance, amperage, 
+                         wired_objects)
 
     def get_name(self) -> str:
         """Получение полного имени компонента
 
         Вывод:
             str"""
-        return f'Linear Component {self.component} {self.name} (amperage: {self.amperage}; voltage: {self.voltage})'
+        return f'Linear Component {self.component} {self.name} (amperage: {self.amperage}; voltage: {self.voltage}; resistance: {self.resistance})'
 
     def __repr__(self):
         return f'Linear Component {self.component} {self.name}'
@@ -38,8 +39,8 @@ class Resistor(LinearComponent):
             name: str - имя резистора
             wired_with - с кем соединен проводом (по умолчанию None)
             resistance: float - сопротивление (по умолчанию 0.0)"""
-        super().__init__(name, 'Resistor', voltage, amperage, wired_objects)
-        self.resistance = resistance            # Сопротивление
+        super().__init__(name, 'Resistor', voltage, resistance, amperage, 
+                         wired_objects)
 
     def change_resistance(self, new_res: float):
         """Изменение сопротивления резистора
@@ -56,8 +57,10 @@ class Capacitor(LinearComponent):
     измеряемую в фарадах (Ф). Большая емкость означает большую способность
     конденсатора накапливать заряд."""
     def __init__(self, name: str, capacitance=10e-6, voltage: float=0.0,
-                amperage: float=0.0, wired_objects: list=[]):
-        super().__init__(name, 'Capacitor', voltage, amperage, wired_objects)
+                 resistance: float=0.0, amperage: float=0.0, 
+                 wired_objects: list=[]):
+        super().__init__(name, 'Capacitor', voltage, resistance, amperage, 
+                         wired_objects)
         self.capacitance = capacitance
 
     def change_capicitance(self, new_cap: float):
@@ -71,8 +74,10 @@ class Inductor(LinearComponent):
     обладают индуктивностью, измеряемой в генри (Гн). Большая индуктивность
     означает большую способность индуктора создавать магнитное поле."""
     def __init__(self, name: str, inductance=1e-3, voltage: float=0.0,
-                 amperage: float=0.0, wired_objects: list=[]):
-        super().__init__(name, 'Inductor', voltage, amperage, wired_objects)
+                 resistance: float=0.0, amperage: float=0.0, 
+                 wired_objects: list=[]):
+        super().__init__(name, 'Inductor', voltage, resistance, amperage, 
+                         wired_objects)
         self.inductance = inductance
 
     def change_inductance(self, new_ind):
@@ -86,8 +91,8 @@ class Potentiometer(LinearComponent):
     уровня сигнала в электрических цепях."""
     def __init__(self, name: str, resistance: float, voltage: float=0.0,
                  amperage: float=0.0, wired_objects: list=[]):
-        super().__init__(name, 'Potentiometer', voltage, amperage, wired_objects)
-        self.resistance = resistance
+        super().__init__(name, 'Potentiometer', voltage, resistance, amperage, 
+                         wired_objects)
 
     def change_resistance(self, new_res: float):
         self.resistance = new_res
@@ -101,8 +106,9 @@ class PolarizedCapacitor(LinearComponent):
     конденсаторы имеют положительный и отрицательный выводы, и их емкость
     измеряется в микрофарадах (мкФ) или пикофарадах (пФ)."""
     def __init__(self, name: str, polarity: bool, capacitance: float=100e-6,
-                 voltage: float=0.0, amperage=0.0, wired_objects: list=[]):
-        super().__init__(name, 'Polarized Capacitor', voltage, amperage,
+                 voltage: float=0.0, resistance: float=0.0, amperage=0.0, 
+                 wired_objects: list=[]):
+        super().__init__(name, 'Polarized Capacitor', voltage, resistance, amperage,
                         wired_objects)
         self.capacitance = capacitance
         self.polarity = polarity
@@ -122,8 +128,7 @@ class Photoresistor(LinearComponent):
     автоматические световые выключатели или фотореле."""
     def __init__(self, name: str, resistance: float, voltage: float=0.0,
                  amperage: float=0.0, wired_objects: list=[]):
-        super().__init__(name, 'Photoresistor', voltage, amperage, wired_objects)
-        self.resistance = resistance
+        super().__init__(name, 'Photoresistor', voltage, resistance, amperage, wired_objects)
 
     def change_resistance(self, new_res: float):
         self.resistance = new_res

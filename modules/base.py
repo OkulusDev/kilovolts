@@ -3,7 +3,7 @@
 class Component:
     """Компонент"""
     def __init__(self, name: str, component_type: str, voltage: float, 
-                 amperage: float, wired_objects: list=[]):
+                 resistance: float, amperage: float, wired_objects: list=[]):
         """Инициализация
         
         Ввод:
@@ -14,6 +14,7 @@ class Component:
         self.component = component_type             # тип компонента
         self.amperage = amperage                    # ток (амперы)
         self.voltage = voltage                      # напряжение (вольты)
+        self.resistance = resistance                # сопротивление
 
     def get_name(self) -> str:
         """Получение полного имени компонента

@@ -3,13 +3,23 @@
 Copyright (C) Alexeev Bronislav, 2024"""
 
 
+class PowerSource:
+    """Источник энергии"""
+    def __init__(self, name: str, current: float=1.0):
+        self.name = name
+        self.current = current
+    
+    def get_name(self):
+        return f'Power Source {self.name} ({self.current} Amps)'
+
+
 class PCB:
     """Printed Circuit Board (Printed Circuit Board) - это печатная плата, 
     которая представляет собой основу для монтажа и соединения электронных 
     компонентов в электрической цепи. PCB обеспечивает механическую поддержку 
     компонентов и электрическое соединение между ними с помощью проводников и 
     металлических трасс"""
-    def __init__(self, PCB_name: str, components: list=[],
+    def __init__(self, PCB_name: str, power_source, components: list=[],
                  connections: list=[]):
         """Инициализация
 
@@ -18,9 +28,16 @@ class PCB:
             components: list - список компонентов по умолчанию ([])
             connections: list - список соединенных компонентов по умолчанию"""
         self.PCB_name = PCB_name
+        self.power_source = power_source
         self.components: list = components
         self.connections: list = connections
         self.power_consumption = 0.0
+
+    def calculate_power(self) -> float:
+        total_resistance = sum(component.resistance for component in self.components)
+        self.power_consumption = total_resistance * self.power_source.current ** 2
+
+        return self.power_consumption
 
     def add_component(self, component) -> None:
         """Добавление компонента в список
@@ -28,7 +45,8 @@ class PCB:
         Аргументы:
             component - объект класса компонента (компонент)"""
         self.components.append(component)
-        self.power_consumption = component.voltage * component.amperage
+        #self.power_consumption = component.voltage * component.amperage
+        self.calculate_power()
 
     def connect_components(self, first_object, second_object) -> int:
         first_object.new_wire(second_object)
@@ -68,6 +86,7 @@ class PCB:
         for connection in self.connections:
             if connection[0] == component or connection[1] == component:
                 self.connections.remove([connection[0], connection[1]])
+                self.calculate_power()
     
     def get_info(self) -> str:
         """Получение информации о PCB
@@ -75,6 +94,7 @@ class PCB:
         Вывод:
             str"""
         result = f'\nPCB "{self.PCB_name}"\n'
+        self.calculate_power()
 
         result += f'Компоненты ({len(self.components)}):\n'
         for component in self.components:
